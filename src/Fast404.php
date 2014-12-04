@@ -2,7 +2,7 @@
 
 namespace Drupal\fast404;
 
-use Drupal\Component\Utility\Settings;
+use Drupal\Core\Site\Settings;
 use Drupal\Core\Database\Database;
 use Drupal\Component\Utility\String;
 use Symfony\Component\HttpFoundation\Request;
@@ -130,7 +130,7 @@ class Fast404 {
   }
 
   public function isPathBlocked() {
-    if (drupal_is_cli()) {
+    if (PHP_SAPI === 'cli') {
       return FALSE;
     }
     return $this->respond_404;

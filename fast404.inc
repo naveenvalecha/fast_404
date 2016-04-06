@@ -6,16 +6,17 @@
 // https://drupal.org/node/2016629
 
 use Drupal\Component\Utility\Settings;
+use Drupal\Core\Site\Settings as CoreSettings;
 use Symfony\Component\HttpFoundation\Request;
 
 function fast404_preboot(Array $settings = array()) {
 
   // We must instantiate a Settings object before attempting to Settings::get().
-  new Settings($settings);
+  new CoreSettings($settings);
 
   // Load the Fast404 class from within the module directory. Since modules
   // haven't been loaded at this point we cannot use the autoloader.
-  require_once __DIR__ . '/lib/Drupal/fast404/Fast404.php';
+  require_once __DIR__ . '/src/Fast404.php';
 
   // Create a request object so we have something to pass Fast404.
   $request = Request::createFromGlobals();

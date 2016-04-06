@@ -140,5 +140,6 @@ class Fast404 {
     $message = Settings::get('fast404_html', '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server (Fast 404).</p></body></html>');
     $response = new Response(SafeMarkup::format($message, array('@path' => $this->request->getPathInfo())), 404);
     $response->send();
+    exit();
   }
 }

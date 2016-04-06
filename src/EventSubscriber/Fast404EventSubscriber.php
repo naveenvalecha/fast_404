@@ -6,7 +6,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-
 use Drupal\fast404\Fast404;
 
 class Fast404EventSubscriber implements EventSubscriberInterface {

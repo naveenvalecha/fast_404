@@ -5,14 +5,13 @@
 // https://drupal.org/node/2023495
 // https://drupal.org/node/2016629
 
-use Drupal\Component\Utility\Settings;
-use Drupal\Core\Site\Settings as CoreSettings;
+use Drupal\Core\Site\Settings;
 use Symfony\Component\HttpFoundation\Request;
 
 function fast404_preboot(Array $settings = array()) {
 
   // We must instantiate a Settings object before attempting to Settings::get().
-  new CoreSettings($settings);
+  new Settings($settings);
 
   // Load the Fast404 class from within the module directory. Since modules
   // haven't been loaded at this point we cannot use the autoloader.

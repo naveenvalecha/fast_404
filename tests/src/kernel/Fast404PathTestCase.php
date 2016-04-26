@@ -1,0 +1,53 @@
+<?php
+
+namespace Drupal\Tests\fast404\Kernel;
+
+use Drupal\Core\Site\Settings;
+use Drupal\KernelTests\KernelTestBase;
+
+/**
+ * Tests the path checking functionality.
+ *
+ * @group fast404
+ */
+class Fast404PathTestCase extends KernelTestBase {
+
+  /**
+   * Modules to install.
+   *
+   * @var array
+   */
+  public static $modules = ['system', 'user'];
+
+  protected $adminUser;
+
+  protected function setUp() {
+    parent::setUp();
+    $this->installSchema('system', ['router', 'url_alias']);
+    $this->installEntitySchema('user');
+  }
+
+  /**
+   * Tests the Url not found markup.
+   */
+  public function testPathCheck() {
+    // Ensure path check isn't activated by default.
+//    $this->drupalGet($this->randomMachineName(10));
+//    $this->assertResponse(404);
+//    $this->assertText('The requested page could not be found.');
+//
+
+    $settings = Settings::getAll();
+    $settings['fast404_path_check'] = TRUE;
+    $settings['fast404_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
+    // Recreate the settings static.
+    new Settings($settings);
+
+
+
+//    $this->drupalGet($this->randomMachineName(10));
+//    $this->assertResponse(404);
+//    $this->assertRaw('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "/notdrupal" was not found on this server.</p></body></html>');
+
+  }
+}

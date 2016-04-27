@@ -10,7 +10,7 @@ use Drupal\simpletest\WebTestBase;
  *
  * @group fast404
  */
-class Fast404Custom404Test extends WebTestBase {
+class Fast404FunctionalityTest extends WebTestBase {
 
   /**
    * Modules to install.
@@ -32,25 +32,22 @@ class Fast404Custom404Test extends WebTestBase {
   /**
    * Tests the Url not found markup.
    */
-  public function testCustom404Check() {
+  public function testPathCheck() {
+    // Ensure path check isn't activated by default.
+    $this->drupalGet('/unfound.flv');
+    $this->assertResponse(404);
+    $this->assertText('The requested URL "/unfound.flv" was not found on this server (Fast 404).');
 
     $this->drupalLogin($this->adminUser);
     $settings = Settings::getAll();
-    $settings['fast404_return_gone'] = TRUE;
-    $settings['fast404_HTML_error_page'] = './custom-404.html';
+    $settings['fast404_path_check'] = TRUE;
+    $settings['fast404_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
     new Settings($settings + Settings::getAll());
     $this->drupalLogout();
-    $this->drupalGet('unfound.flv');
+
+    $this->drupalGet('/unfound.flv');
     $this->assertResponse(404);
-    $this->assertText('The requested URL "/unfound.flv" was not found on this server (Fast 404).');
-//    $this->assertRaw('<html>
-//    <head>
-//      <title>404 Not Found</title>
-//    </head>
-//    <body>
-//      <h1>Custom 404!</h1>
-//    </body>
-//   </html>');
     $this->assertRaw('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "/unfound.flv" was not found on this server (Fast 404).</p></body></html>');
+
   }
 }

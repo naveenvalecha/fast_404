@@ -60,12 +60,13 @@ class Fast404 {
 
     // If we are using URL whitelisting then determine if the current URL is
     // whitelisted before running the extension check.
-
     // Check for exact URL matches and assume it's fine if we get one.
-    $url_whitelist = Settings::get('fast404_url_whitelisting', FALSE);
-    if (is_array($url_whitelist)) {
-      if (in_array($path, $url_whitelist)) {
-        return;
+    if(Settings::get('fast404_url_whitelisting', FALSE)) {
+      $trimmed_path = ltrim($path, '/');
+      $allowed = Settings::get('fast404_whitelist', array());
+      if (in_array($trimmed_path, $allowed)) {
+        // URL is whitelisted. Assumed good.
+        return TRUE;
       }
     }
 
